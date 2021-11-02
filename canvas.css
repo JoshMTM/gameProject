@@ -50,3 +50,7 @@ h1 {
 #startElems > div :hover {
   width: 150px;
 }
+
+h3 {
+  color: rgba(170, 77, 77, 0.966);
+}
