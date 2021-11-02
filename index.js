@@ -70,49 +70,72 @@ let playerLeft = false;
 
 let carImgs = [car1, car2, car3];
 let carFlowX = 0;
+
 let decSpeed = 1;
 
 let carFlow = [
   {
     x: carFlowX,
     y: 90,
-    rotatePoint: 300,
+    rotatePoint: 340,
     img: carImgs[Math.floor(Math.random() * carImgs.length)],
+    isRot: false,
   },
   {
     x: carFlowX - 240,
     y: 120,
-    rotatePoint: 300,
+    rotatePoint: 360,
     img: carImgs[Math.floor(Math.random() * carImgs.length)],
+    isRot: false,
   },
   {
     x: carFlowX - 80,
     y: 90,
-    rotatePoint: 300,
+    rotatePoint: 340,
     img: carImgs[Math.floor(Math.random() * carImgs.length)],
+    isRot: false,
   },
   {
     x: carFlowX - 130,
     y: 120,
-    rotatePoint: 300,
+    rotatePoint: 350,
     img: carImgs[Math.floor(Math.random() * carImgs.length)],
+    isRot: false,
   },
 ];
 function addVehicles() {
   for (let i = 0; i < carFlow.length; i++) {
     ctx.drawImage(carFlow[i].img, carFlow[i].x, carFlow[i].y, 55, 55);
-    carFlow[i].x = carFlow[i].x + decSpeed;
-
-    // if (carFlow[i].x + car1.width < 0) {
-    //   carFlow[i].x = 300;
-    //   carFlow[i].y = -Math.floor(Math.random() * 80);
-    // }
     if (carFlow[i].x + 55 == carFlow[i].rotatePoint) {
-      console.log("For Joanne");
-      // Take the cars back
-      // carFlow[i].x = carFlow[i].y + 2;
+      carFlow[i].y = carFlow[i].y + decSpeed;
+      if (!carFlow[i].isRot) {
+        carFlow[i].isRot = true;
+        // drawRotated(angle, carFlow[i], carFlow[i].x, carFlow[i].y);
+        // ctx.translate(carFlow[i].x, carFlow[i].y);
+        // ctx.rotate((90 * Math.PI) / 180);
+        // ctx.translate(-carFlow[i].x, -carFlow[i].y);
+      }
+    } else {
+      carFlow[i].x = carFlow[i].x + decSpeed;
+    }
+    //Take the cars back
+    if (carFlow[i].x + 55 == 340 && carFlow[i].y == canvas.height) {
+      console.log("we get there?");
+      carFlow[i].x = -130;
+      carFlow[i].y = 90 + Math.floor(Math.random() * 30);
     }
   }
+  // carFlow[i].x = carFlow[i].x + decSpeed;
+
+  // if (carFlow[i].x + car1.width < 0) {
+  //   carFlow[i].x = 300;
+  //   carFlow[i].y = -Math.floor(Math.random() * 80);
+  // }
+  // if (carFlow[i].x + 55 == carFlow[i].rotatePoint) {
+  //   console.log("..");
+  //   carFlow[i].x = -60;
+
+  // carFlow[i].y += 2;
 
   // Draw collisions
   // for (let i = 0; i < carImgs.length; i++) {
@@ -214,12 +237,12 @@ function showGameOver() {
   canvas.style.display = "none";
 }
 
-function drawRotated(degree) {
+function drawRotated(degree, elem, elemX, elemY) {
   ctx.save();
-  ctx.translate(playerX, playerY);
+  ctx.translate(elemX, elemY);
   ctx.rotate((degree * Math.PI) / 180);
-  ctx.translate(-playerX, -playerY);
-  ctx.drawImage(player, playerX - 25, playerY - 25, 55, 55);
+  ctx.translate(-elemX, -elemY);
+  ctx.drawImage(elem, elemX - 25, elemY - 25, 55, 55);
   ctx.restore();
 }
 
@@ -242,10 +265,10 @@ function animation() {
   car2X = car2X - 0.8;
   car3X = car3X + 0.8;
 
-  if (isRight && playerX + 55 < 280 + 100) {
+  if (isRight && playerX + 55 <= 290 + 100) {
     playerX = playerX + 1;
   }
-  if (isLeft) {
+  if (isLeft && playerX >= 270) {
     playerX = playerX - 1;
   }
   if (isUp) {
@@ -257,7 +280,7 @@ function animation() {
 
   if (isRotate) {
     // player = rPlayer;
-    drawRotated(angle);
+    drawRotated(angle, player, playerX, playerY);
   }
 
   ctx.font = "24px Verdana";
