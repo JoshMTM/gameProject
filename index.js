@@ -39,6 +39,18 @@ car2.src = "./images/a6rBl-removebg-preview.png";
 let car3 = new Image();
 car3.src =
   "./images/top-view-racing-car-top-view-racing-car-vector-illustration-99830413-removebg-preview.png";
+
+let car4 = new Image();
+car4.src =
+  "./images/top-view-racing-car-top-view-racing-car-vector-illustration-99831332-removebg-preview.png";
+let car5 = new Image();
+car5.src = "./images/a6rBl-removebg-preview.png";
+let car6 = new Image();
+car6.src =
+  "./images/481-4811908_race-car-sprite-png-car-top-down-png_2-removebg-preview.png";
+let car7 = new Image();
+car7.src = "./images/fPKWt_2-removebg-preview.png";
+
 //Declaring variables:
 let startBtn = document.querySelector("#startBtn");
 let restartBtn = document.querySelector("#restart");
@@ -57,8 +69,8 @@ let car1X = -50,
 let car2X = 605,
   car2Y = 310;
 
-let car3X = -200,
-  car3Y = 80;
+let car4X = -200,
+  car4Y = 80;
 
 let angle = 90;
 let isUp = false,
@@ -68,7 +80,9 @@ let playerStraight = false;
 let playerRight = false;
 let playerLeft = false;
 
-let carImgs = [car1, car2, car3];
+let carImgs = [car1, car2, car3, car4];
+let carImgs2 = [car5, car6, car7];
+
 let carFlowX = 0;
 
 let decSpeed = 1;
@@ -82,38 +96,91 @@ let carFlow = [
     isRot: false,
   },
   {
-    x: carFlowX - 240,
+    x: carFlowX - 120,
     y: 120,
     rotatePoint: 360,
     img: carImgs[Math.floor(Math.random() * carImgs.length)],
     isRot: false,
   },
   {
-    x: carFlowX - 80,
+    x: carFlowX - 200,
     y: 90,
     rotatePoint: 340,
     img: carImgs[Math.floor(Math.random() * carImgs.length)],
     isRot: false,
   },
   {
-    x: carFlowX - 130,
+    x: carFlowX - 280,
     y: 120,
     rotatePoint: 350,
     img: carImgs[Math.floor(Math.random() * carImgs.length)],
     isRot: false,
   },
+  {
+    x: carFlowX - 350,
+    y: 90,
+    rotatePoint: 370,
+    img: carImgs[Math.floor(Math.random() * carImgs.length)],
+    isRot: false,
+  },
+  {
+    x: carFlowX - 420,
+    y: 140,
+    rotatePoint: 360,
+    img: carImgs[Math.floor(Math.random() * carImgs.length)],
+    isRot: false,
+  },
+  {
+    x: carFlowX - 550,
+    y: 80,
+    rotatePoint: 340,
+    img: carImgs[Math.floor(Math.random() * carImgs.length)],
+    isRot: false,
+  },
+  {
+    x: carFlowX - 620,
+    y: 130,
+    rotatePoint: 350,
+    img: carImgs[Math.floor(Math.random() * carImgs.length)],
+    isRot: false,
+  },
+];
+
+let carFlowLeft = [
+  {
+    x: carFlowX + 600,
+    y: 280,
+    rotatePoint: 360,
+    img: carImgs[Math.floor(Math.random() * carImgs.length)],
+    isRot: false,
+  },
+  {
+    x: carFlowX + 690,
+    y: 310,
+    rotatePoint: 350,
+    img: carImgs[Math.floor(Math.random() * carImgs.length)],
+    isRot: false,
+  },
+  {
+    x: carFlowX + 670,
+    y: 330,
+    rotatePoint: 350,
+    img: carImgs2[Math.floor(Math.random() * carImgs2.length)],
+    isRot: false,
+  },
 ];
 function addVehicles() {
   for (let i = 0; i < carFlow.length; i++) {
-    ctx.drawImage(carFlow[i].img, carFlow[i].x, carFlow[i].y, 55, 55);
+    drawRotated(
+      carFlow[i].isRot ? 90 : 180,
+      carFlow[i].img,
+      carFlow[i].x + 25,
+      carFlow[i].y + 25
+    );
     if (carFlow[i].x + 55 == carFlow[i].rotatePoint) {
       carFlow[i].y = carFlow[i].y + decSpeed;
       if (!carFlow[i].isRot) {
         carFlow[i].isRot = true;
-        // drawRotated(angle, carFlow[i], carFlow[i].x, carFlow[i].y);
-        // ctx.translate(carFlow[i].x, carFlow[i].y);
-        // ctx.rotate((90 * Math.PI) / 180);
-        // ctx.translate(-carFlow[i].x, -carFlow[i].y);
       }
     } else {
       carFlow[i].x = carFlow[i].x + decSpeed;
@@ -121,36 +188,40 @@ function addVehicles() {
     //Take the cars back
     if (carFlow[i].x + 55 == 340 && carFlow[i].y == canvas.height) {
       console.log("we get there?");
-      carFlow[i].x = -130;
-      carFlow[i].y = 90 + Math.floor(Math.random() * 30);
+      carFlow[i].x = -50;
+      carFlow[i].y = 80 + Math.floor(Math.random() * 50);
+      carFlow[i].isRot = false;
+    }
+    if (playerX + player.width <= carFlow[i].x + carFlow[i].width) {
+      console.log("what's happening here?");
+      // gameOver = true;
     }
   }
-  // carFlow[i].x = carFlow[i].x + decSpeed;
-
-  // if (carFlow[i].x + car1.width < 0) {
-  //   carFlow[i].x = 300;
-  //   carFlow[i].y = -Math.floor(Math.random() * 80);
-  // }
-  // if (carFlow[i].x + 55 == carFlow[i].rotatePoint) {
-  //   console.log("..");
-  //   carFlow[i].x = -60;
-
-  // carFlow[i].y += 2;
-
-  // Draw collisions
-  // for (let i = 0; i < carImgs.length; i++) {
-  //   if (
-  //     player.x + player.width > carImgs[i].x &&
-  //     carImgs[i].y > player.y + 55 < player.y + 55
-  //   ) {
-  //     console.log("is this working");
-  //     gameOver = true;
-  //   }
-  // }
+  for (let i = 0; i < carFlowLeft.length; i++) {
+    drawRotated(
+      carFlowLeft[i].isRot ? 90 : 180,
+      carFlowLeft[i].img,
+      carFlowLeft[i].x + 25,
+      carFlowLeft[i].y + 25
+    );
+    if (carFlowLeft[i].x + 55 == carFlowLeft[i].rotatePoint) {
+      carFlowLeft[i].y = carFlowLeft[i].y + decSpeed;
+      if (!carFlowLeft[i].isRot) {
+        carFlowLeft[i].isRot = true;
+      }
+    } else {
+      carFlowLeft[i].x = carFlowLeft[i].x - decSpeed;
+    }
+    //Take the cars back
+    if (carFlowLeft[i].x + 55 == 340 && carFlowLeft[i].y == canvas.height) {
+      carFlowLeft[i].x = -650;
+      carFlowLeft[i].y = 80 + Math.floor(Math.random() * 50);
+      carFlowLeft[i].isRot = false;
+    }
+  }
 }
 
 function draw() {
-  addVehicles();
   ctx.beginPath();
   ctx.shadowBlur = 0;
   ctx.setLineDash([0]);
@@ -192,7 +263,7 @@ function draw() {
 
   // ctx.drawImage(car1, car1X, car1Y, 55, 60);
   // ctx.drawImage(car2, car2X, car2Y, 55, 60);
-  // ctx.drawImage(car3, car3X, car3Y, 55, 60);
+  // ctx.drawImage(car4, car4X, car4Y, 65, 60);
 
   ctx.beginPath();
   ctx.stroke();
@@ -209,6 +280,8 @@ function draw() {
   ctx.fillStyle = "rgba(67, 63, 63, 0.5)";
   ctx.fillRect(280, 180, 100, 640);
   ctx.closePath();
+
+  addVehicles();
 
   // if (playerRight) {
   //   ctx.drawImage(rPlayer, playerX, playerY, 55, 55);
@@ -235,6 +308,7 @@ function handleStart() {
 
 function showGameOver() {
   canvas.style.display = "none";
+  homePage.style.display = "block";
 }
 
 function drawRotated(degree, elem, elemX, elemY) {
@@ -263,9 +337,9 @@ function animation() {
 
   car1X = car1X + 0.5;
   car2X = car2X - 0.8;
-  car3X = car3X + 0.8;
+  car4X = car4X + 0.8;
 
-  if (isRight && playerX + 55 <= 290 + 100) {
+  if (isRight && playerX + 55 <= 390) {
     playerX = playerX + 1;
   }
   if (isLeft && playerX >= 270) {
@@ -322,14 +396,18 @@ window.addEventListener("load", () => {
       isLeft = false;
     }
 
-    if (event.key == "r") {
+    if (event.key == "d") {
       // playerRight = true;
       isRotate = true;
       angle = 90;
     }
-    if (event.key == "l") {
+    if (event.key == "a") {
       isRotate = true;
       angle = -90;
+    }
+
+    if (event.key == "s") {
+      isRotate = false;
     }
 
     if (event.key == "ArrowUp") {
