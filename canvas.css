@@ -8,20 +8,22 @@
   position: relative;
   color: rgba(255, 255, 255);
   text-align: center;
-  color: rgba(10, 136, 37, 0.966);
+  color: rgba(73, 184, 97, 0.966);
 }
 
 h1 {
   font-size: 5em;
   text-align: center;
   text-transform: uppercase;
-  border: 4.5px solid rgba(10, 136, 37, 0.966);
+  /* border: 4.5px solid rgba(10, 136, 37, 0.966); */
 }
 
 #mainpage > article {
   font-size: 2.5rem;
-  color: rgba(12, 12, 12, 0.712);
+  color: rgb(245, 245, 245);
   font-weight: bold;
+  border: 2px solid green;
+  background-color: rgba(170, 130, 77, 0.966);
 }
 
 #startElems {
@@ -45,6 +47,6 @@ h1 {
 #startElems > div > img {
   width: 100px;
 }
-#startElems > div > img hoover {
-  width: 200px;
+#startElems > div :hover {
+  width: 150px;
 }

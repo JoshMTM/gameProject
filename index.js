@@ -21,6 +21,9 @@ player.src =
 let rPlayer = new Image();
 rPlayer.src = "./images/player1-removebg-preview.png";
 
+let lPlayer = new Image();
+lPlayer.src = "./images/player1_2-removebg-preview.png";
+
 let audio = new Audio();
 audio.src =
   "https://res.cloudinary.com/manishp/video/upload/v1623305320/Horizon_Zero_Dawn_OST_-_Years_Of_Training_badkhk.mp3";
@@ -31,6 +34,10 @@ car1.src =
 
 let car2 = new Image();
 car2.src = "./images/a6rBl-removebg-preview.png";
+
+let car3 = new Image();
+car3.src =
+  "./images/top-view-racing-car-top-view-racing-car-vector-illustration-99830413-removebg-preview.png";
 //Declaring variables:
 let startBtn = document.querySelector("#startBtn");
 let restartBtn = document.querySelector("#restart");
@@ -45,11 +52,39 @@ let gameOver = false;
 let mouseClick = false;
 let score = 0;
 let car1X = -50,
-  car1Y = 100;
+  car1Y = 130;
 let car2X = 605,
   car2Y = 310;
 
+let car3X = -200,
+  car3Y = 80;
+
+let playerStraight = false;
+let playerRight = false;
+let playerLeft = false;
+
+function addVehicles() {
+  let carFlowX = 0;
+  let decSpeed = 2;
+
+  let carFlow = [
+    { x: carFlowX, y: 0 },
+    { x: carFlowX, y: -250 },
+  ];
+  for (let i = 0; i < carFlow.length; i++) {
+    ctx.drawImage(car1, carFlow[i].x, carFlow[i].y, 55, 55);
+    ctx.drawImage(car2, carFlow[i].x, carFlow[i].y + car1.height + 50, 55, 55);
+    carFlow[i].x = carFlow[i].x - decSpeed;
+  }
+
+  if (carFlow[i].x + car1.width < 0) {
+    carFlow[i].x = 300;
+    carFlow[i].y = -Math.floor(Math.random() * 80);
+  }
+}
+
 function draw() {
+  // addVehicles();
   ctx.beginPath();
   ctx.shadowBlur = 0;
   ctx.setLineDash([0]);
@@ -86,11 +121,12 @@ function draw() {
   ctx.beginPath();
   ctx.stroke();
   ctx.lineWidth = 10;
-  ctx.fillRect(0, 80, 280, 100);
+  ctx.fillRect(0, 80, 380, 100);
   ctx.closePath();
 
   ctx.drawImage(car1, car1X, car1Y, 55, 60);
   ctx.drawImage(car2, car2X, car2Y, 55, 60);
+  ctx.drawImage(car3, car3X, car3Y, 55, 60);
 
   ctx.beginPath();
   ctx.stroke();
@@ -105,17 +141,25 @@ function draw() {
   ctx.lineWidth = 10;
   // ctx.shadowBlur = 1;
   ctx.fillStyle = "rgba(67, 63, 63, 0.5)";
-  ctx.fillRect(280, 80, 100, 640);
+  ctx.fillRect(280, 180, 100, 640);
   ctx.closePath();
 
-  ctx.drawImage(player, playerX, playerY, 55, 55);
+  if (playerRight) {
+    ctx.drawImage(rPlayer, playerX, playerY, 55, 55);
+  } else if (playerLeft) {
+    ctx.drawImage(lPlayer, playerX, playerY, 55, 55);
+  } else {
+    ctx.drawImage(player, playerX, playerY, 55, 55);
+  }
+
+  //ctx.drawImage(player, playerX, playerY, 55, 55);
   // ctx.drawImage(rPlayer, 610, 280, 55, 55);
 }
 
 function handleStart() {
   canvas.style.display = "block";
   animation();
-  audio.play();
+  // audio.play();
   audio.volume = 0.5;
 }
 
@@ -128,6 +172,7 @@ function drawRotated(degree) {
   ctx.save();
   ctx.translate(canvas.width / 2, canvas.height / 2);
   ctx.rotate((degree * Math.PI) / 180);
+  // ctx.translate(-canvas.width / 2, -canvas.height / 2);
   ctx.drawImage(player, -player.width / 2, -player.width / 2, 55, 55);
   ctx.restore();
 }
@@ -136,9 +181,19 @@ function animation() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   draw();
-  playerY = playerY - 1;
+  if (playerStraight) {
+    playerY = playerY - 1;
+  } else if (playerRight) {
+    playerX = playerX + 0.5;
+  } else if (playerLeft) {
+    playerX = playerX - 0.5;
+  } else {
+    playerY = playerY - 1;
+  }
+
   car1X = car1X + 0.5;
-  car2X = car2X - 1;
+  car2X = car2X - 0.8;
+  car3X = car3X + 0.8;
 
   if (isRight) {
     playerX = playerX + 1;
@@ -179,16 +234,29 @@ window.addEventListener("load", () => {
       isLeft = false;
     }
   });
+  document.addEventListener("keyup", () => {});
 
-  document.addEventListener("click", (event) => {
-    if (instanceofMouseEvent.offsetX) {
-      return (mouseClick = true);
-    }
-  });
+  // document.addEventListener("click", (event) => {
+  //   if (instanceofMouseEvent.offsetX) {
+  //     return (mouseClick = true);
+  //   }
+  // });
 
   document.addEventListener("keypress", (event) => {
     if (event.key == "r") {
-      return (isRotate = true);
+      playerRight = true;
+      // isRotate = true;
     }
   });
+  document.addEventListener("keypress", (event) => {
+    if (event.key == "l") {
+      playerLeft = true;
+    }
+  });
+
+  // document.addEventListener("keypress", (event) => {
+  //   if (event.key == "s") {
+  //     playerStraight = true;
+  //   }
+  // });
 });
