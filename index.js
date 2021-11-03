@@ -131,21 +131,21 @@ let carFlow = [
     isRot: false,
   },
   {
-    x: carFlowX - 620,
+    x: carFlowX - 700,
     y: 140,
     rotatePoint: 360,
     img: carImgs[Math.floor(Math.random() * carImgs.length)],
     isRot: false,
   },
   {
-    x: carFlowX - 750,
+    x: carFlowX - 850,
     y: 80,
     rotatePoint: 340,
     img: carImgs[Math.floor(Math.random() * carImgs.length)],
     isRot: false,
   },
   {
-    x: carFlowX - 820,
+    x: carFlowX - 990,
     y: 130,
     rotatePoint: 350,
     img: carImgs[Math.floor(Math.random() * carImgs.length)],
@@ -205,7 +205,7 @@ function addVehicles() {
       playerY < carFlow[i].y + 55 &&
       playerY + playerHeight > carFlow[i].y
     ) {
-      console.log("what's happening here?");
+      // console.log("what's happening here?");
       // gameOver = true;
     }
     if (playerX == carFlow[i].y + 55 || playerY == carFlow[i].x + 55) {
@@ -410,7 +410,7 @@ window.addEventListener("load", () => {
     handleStart();
   });
   restartBtn.addEventListener("click", () => {
-    handleStart();
+    location = location;
   });
 
   document.addEventListener("keydown", (event) => {
@@ -452,9 +452,4 @@ window.addEventListener("load", () => {
     isRight = false;
     isLeft = false;
   });
-  // document.addEventListener("keypress", (event) => {
-  //   if (event.key == "s") {
-  //     playerStraight = true;
-  //   }
-  // });
 });
