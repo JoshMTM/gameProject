@@ -187,12 +187,12 @@ function addVehicles() {
     }
     //Take the cars back
     if (carFlow[i].x + 55 == 340 && carFlow[i].y == canvas.height) {
-      console.log("we get there?");
+      // console.log("we get there?");
       carFlow[i].x = -50;
       carFlow[i].y = 80 + Math.floor(Math.random() * 50);
       carFlow[i].isRot = false;
     }
-    if (playerX + player.width <= carFlow[i].x + carFlow[i].width) {
+    if (playerX + player.width <= carFlow[i].y + carFlow[i].height) {
       console.log("what's happening here?");
       // gameOver = true;
     }
@@ -213,9 +213,13 @@ function addVehicles() {
       carFlowLeft[i].x = carFlowLeft[i].x - decSpeed;
     }
     //Take the cars back
-    if (carFlowLeft[i].x + 55 == 340 && carFlowLeft[i].y == canvas.height) {
+    if (
+      carFlowLeft[i].x + 55 == carFlowLeft[i].rotatePoint &&
+      carFlowLeft[i].y == canvas.height
+    ) {
+      console.log("is this working???");
       carFlowLeft[i].x = -650;
-      carFlowLeft[i].y = 80 + Math.floor(Math.random() * 50);
+      carFlowLeft[i].y = 300 + Math.floor(Math.random() * 50);
       carFlowLeft[i].isRot = false;
     }
   }
