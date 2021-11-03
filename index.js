@@ -74,6 +74,7 @@ let car2X = 605,
 
 let car4X = -200,
   car4Y = 80;
+let completedMission = false;
 
 let playerWidth = 55,
   playerHeight = 55;
@@ -102,49 +103,49 @@ let carFlow = [
     isRot: false,
   },
   {
-    x: carFlowX - 120,
+    x: carFlowX - 150,
     y: 120,
     rotatePoint: 360,
     img: carImgs[Math.floor(Math.random() * carImgs.length)],
     isRot: false,
   },
   {
-    x: carFlowX - 200,
+    x: carFlowX - 300,
     y: 90,
     rotatePoint: 340,
     img: carImgs[Math.floor(Math.random() * carImgs.length)],
     isRot: false,
   },
   {
-    x: carFlowX - 280,
+    x: carFlowX - 450,
     y: 120,
     rotatePoint: 350,
     img: carImgs[Math.floor(Math.random() * carImgs.length)],
     isRot: false,
   },
   {
-    x: carFlowX - 350,
+    x: carFlowX - 550,
     y: 90,
     rotatePoint: 370,
     img: carImgs[Math.floor(Math.random() * carImgs.length)],
     isRot: false,
   },
   {
-    x: carFlowX - 420,
+    x: carFlowX - 620,
     y: 140,
     rotatePoint: 360,
     img: carImgs[Math.floor(Math.random() * carImgs.length)],
     isRot: false,
   },
   {
-    x: carFlowX - 550,
+    x: carFlowX - 750,
     y: 80,
     rotatePoint: 340,
     img: carImgs[Math.floor(Math.random() * carImgs.length)],
     isRot: false,
   },
   {
-    x: carFlowX - 620,
+    x: carFlowX - 820,
     y: 130,
     rotatePoint: 350,
     img: carImgs[Math.floor(Math.random() * carImgs.length)],
@@ -204,11 +205,20 @@ function addVehicles() {
       playerY < carFlow[i].y + 55 &&
       playerY + playerHeight > carFlow[i].y
     ) {
-      // console.log("what's happening here?");
-      gameOver = true;
+      console.log("what's happening here?");
+      // gameOver = true;
     }
-    if (playerX == carFlow[i].y + 55) {
+    if (playerX == carFlow[i].y + 55 || playerY == carFlow[i].x + 55) {
       score++;
+    }
+
+    if (playerX + 60 == 0 && playerY <= 160) {
+      completedMission = true;
+    }
+    if (completedMission) {
+      nextMission.style.display = "block";
+      canvas.style.display = "none";
+      audio.pause();
     }
   }
   for (let i = 0; i < carFlowLeft.length; i++) {
@@ -234,6 +244,10 @@ function addVehicles() {
       carFlowLeft[i].x = -650;
       carFlowLeft[i].y = 300 + Math.floor(Math.random() * 50);
       carFlowLeft[i].isRot = false;
+    }
+
+    if (playerX == carFlowLeft[i].y + 55) {
+      score++;
     }
   }
 }
