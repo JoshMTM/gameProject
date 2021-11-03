@@ -2,6 +2,9 @@ console.log("are we here?");
 
 let canvas = document.getElementById("myCanvas");
 let homePage = document.getElementById("homePage");
+let description = document.getElementById("description");
+let nextMission = document.getElementById("nextMission");
+let gameisOver = document.getElementById("gameOver");
 let ctx = canvas.getContext("2d");
 canvas.style.border = "2px solid black";
 // ctx.translate(-150, -75);
@@ -53,14 +56,14 @@ car7.src = "./images/fPKWt_2-removebg-preview.png";
 
 //Declaring variables:
 let startBtn = document.querySelector("#startBtn");
-let restartBtn = document.querySelector("#restart");
+let restartBtn = document.querySelector("#restartBtn");
 let intervalId = 0;
 let isGameOver = false;
 let playerY = 610,
   playerX = 300;
 let isRight = false,
-  isLeft = false;
-isRotate = false;
+  isLeft = false,
+  isRotate = false;
 let gameOver = false;
 let mouseClick = false;
 let score = 0;
@@ -71,6 +74,9 @@ let car2X = 605,
 
 let car4X = -200,
   car4Y = 80;
+
+let playerWidth = 55,
+  playerHeight = 55;
 
 let angle = 90;
 let isUp = false,
@@ -192,9 +198,17 @@ function addVehicles() {
       carFlow[i].y = 80 + Math.floor(Math.random() * 50);
       carFlow[i].isRot = false;
     }
-    if (playerX + player.width <= carFlow[i].y + carFlow[i].height) {
-      console.log("what's happening here?");
-      // gameOver = true;
+    if (
+      playerX < carFlow[i].x + 55 &&
+      playerX + playerWidth > carFlow[i].x &&
+      playerY < carFlow[i].y + 55 &&
+      playerY + playerHeight > carFlow[i].y
+    ) {
+      // console.log("what's happening here?");
+      gameOver = true;
+    }
+    if (playerX == carFlow[i].y + 55) {
+      score++;
     }
   }
   for (let i = 0; i < carFlowLeft.length; i++) {
@@ -217,7 +231,6 @@ function addVehicles() {
       carFlowLeft[i].x + 55 == carFlowLeft[i].rotatePoint &&
       carFlowLeft[i].y == canvas.height
     ) {
-      console.log("is this working???");
       carFlowLeft[i].x = -650;
       carFlowLeft[i].y = 300 + Math.floor(Math.random() * 50);
       carFlowLeft[i].isRot = false;
@@ -296,7 +309,7 @@ function draw() {
   // }
 
   if (!isRotate) {
-    ctx.drawImage(player, playerX, playerY, 55, 55);
+    ctx.drawImage(player, playerX, playerY, playerWidth, playerHeight);
   }
   // ctx.drawImage(player, playerX, playerY, 55, 55);
   // ctx.drawImage(rPlayer, 610, 280, 55, 55);
@@ -305,14 +318,16 @@ function draw() {
 function handleStart() {
   canvas.style.display = "block";
   animation();
-  // audio.play();
+  audio.play();
   audio.volume = 0.5;
   homePage.style.display = "none";
+  description.style.display = "block";
 }
 
 function showGameOver() {
   canvas.style.display = "none";
-  homePage.style.display = "block";
+  gameisOver.style.display = "block";
+  audio.pause();
 }
 
 function drawRotated(degree, elem, elemX, elemY) {
@@ -349,31 +364,19 @@ function animation() {
   if (isLeft && playerX >= 270) {
     playerX = playerX - 1;
   }
-  if (isUp) {
+  if (isUp && playerY > 100) {
     playerY = playerY - 1;
   }
-  if (isDown) {
+  if (isDown && playerY < 160) {
     playerY = playerY + 1;
   }
 
   if (isRotate) {
-    // player = rPlayer;
     drawRotated(angle, player, playerX, playerY);
   }
 
   ctx.font = "24px Verdana";
   ctx.fillText(`Score: ${score}`, 230, 40);
-
-  // Draw collisions
-  // for (let i = 0; i < carImgs.length; i++) {
-  //   if (
-  //     player + player.width == carImgs[i].x &&
-  //     carImgs[i].y > player.length + 55 < player.length + 55
-  //   ) {
-  //     console.log("is this working");
-  //     // gameOver = true;
-  //   }
-  // }
 
   if (gameOver) {
     cancelAnimationFrame(intervalId);
@@ -385,8 +388,14 @@ function animation() {
 
 window.addEventListener("load", () => {
   canvas.style.display = "none";
+  description.style.display = "none";
+  gameisOver.style.display = "none";
+  nextMission.style.display = "none";
 
   startBtn.addEventListener("click", () => {
+    handleStart();
+  });
+  restartBtn.addEventListener("click", () => {
     handleStart();
   });
 
