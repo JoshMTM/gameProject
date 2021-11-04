@@ -343,7 +343,7 @@ function draw() {
 function handleStart() {
   canvas.style.display = "block";
   animation();
-  // audio1.play();
+  audio1.play();
   audio1.volume = 0.5;
   homePage.style.display = "none";
   description.style.display = "block";
