@@ -3,6 +3,7 @@ let homePage = document.getElementById("homePage");
 let description = document.getElementById("description");
 let nextMission = document.getElementById("nextMission");
 let gameisOver = document.getElementById("gameOver");
+let scoreupdated = document.getElementById("score");
 let ctx = canvas.getContext("2d");
 canvas.style.border = "2px solid black";
 // ctx.translate(-150, -75);
@@ -13,8 +14,10 @@ let bg1 = new Image();
 bg1.src = "./images/BitesizedWeeklyAffenpinscher-size_restricted.gif";
 
 let bg2 = new Image();
-bg2.src =
-  "images/high-quality-horizontal-background-cityscape-260nw-1055260328.jpg";
+bg2.src = "./images/80082979 2.jpg";
+
+let bg3 = new Image();
+bg3.src = "./images/preview 2.jpg";
 
 let player = new Image();
 player.src = "./images/player1-removebg-preview.png";
@@ -25,6 +28,9 @@ lPlayer.src = "./images/player1_2-removebg-preview.png";
 let audio = new Audio();
 audio.src =
   "https://res.cloudinary.com/manishp/video/upload/v1623305320/Horizon_Zero_Dawn_OST_-_Years_Of_Training_badkhk.mp3";
+
+let gameoverSound = new Audio();
+gameoverSound.src = "./audio/game-lose-sound.mp3";
 
 let audio1 = new Audio();
 audio1.src = "./audio/bensound-happyrock.mp3";
@@ -213,10 +219,10 @@ function addVehicles() {
     }
     // Draw collisions
     if (
-      playerX <= carFlow[i].x + 55 &&
+      playerX <= carFlow[i].x + 35 &&
       playerX + playerWidth >= carFlow[i].x &&
-      playerY <= carFlow[i].y + 55 &&
-      playerY + playerHeight >= carFlow[i].y
+      playerY <= carFlow[i].y + 35 &&
+      playerHeight + playerY >= carFlow[i].y
     ) {
       gameOver = true;
     }
@@ -226,13 +232,6 @@ function addVehicles() {
 
     if (playerX + 60 == 0 && playerY <= 220) {
       completedMission = true;
-    }
-    if (completedMission) {
-      nextMission.style.display = "block";
-      canvas.style.display = "none";
-      audio1.pause();
-      audio2.play();
-      audio2.volume = 0.5;
     }
   }
   for (let i = 0; i < carFlowLeft.length; i++) {
@@ -264,10 +263,22 @@ function addVehicles() {
     if (playerX == carFlowLeft[i].y + 55) {
       score++;
     }
+
+    if (completedMission) {
+      nextMission.style.display = "block";
+      canvas.style.display = "none";
+      audio1.pause();
+      audio2.play();
+      audio2.volume = 0.5;
+      // document.getElementById("score").innerText = score;
+    }
   }
+  document.getElementById("score").innerText = score;
 }
 
 function draw() {
+  ctx.drawImage(bg3, 400, -308);
+
   ctx.beginPath();
   ctx.drawImage(bg1, 30, -224);
   ctx.closePath();
@@ -303,8 +314,9 @@ function draw() {
   ctx.arc(510 + 25, 10 + 25, 24, 0, 2 * Math.PI);
   ctx.globalAlpha = 1;
   ctx.stroke();
-  // ctx.drawImage(bg2, 0, 0);
-  // ctx.drawImage(bg1, 265, 0);
+  ctx.drawImage(bg2, -148, 230);
+  ctx.drawImage(bg3, 400, 400);
+
   ctx.beginPath();
   ctx.stroke();
   ctx.lineWidth = 10;
@@ -352,7 +364,9 @@ function handleStart() {
 function showGameOver() {
   canvas.style.display = "none";
   gameisOver.style.display = "block";
-  audio.pause();
+  audio1.pause();
+  gameoverSound.play();
+  scoreUpdated.innerHTML = `${score}`;
 }
 
 function drawRotated(degree, elem, elemX, elemY, isCar) {
