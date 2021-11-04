@@ -71,6 +71,7 @@ h1 {
 
 h3 {
   color: rgba(170, 77, 77, 0.966);
+  font-size: 1.8em;
 }
 
 #instructionsDetails {
@@ -94,13 +95,15 @@ h3 {
   border-radius: 20px;
   box-shadow: 5px 5px 10px 0 #eee;
   margin: 5px 5% 5% 5%;
+}
+.keys > div > p {
+  margin-top: 0;
   color: black;
 }
 .keys > div > img {
-  top: 8px;
-  left: 16px;
-  font-size: 18px;
-  width: 100%;
+  width: 100px;
   height: auto;
   opacity: 0.4;
+  border-radius: 20px;
+  margin-top: 5px;
 }
