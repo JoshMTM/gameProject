@@ -4,6 +4,7 @@ let description = document.getElementById("description");
 let nextMission = document.getElementById("nextMission");
 let gameisOver = document.getElementById("gameOver");
 let scoreupdated = document.getElementById("score");
+let scoreSucess = document.getElementById("socre2");
 let ctx = canvas.getContext("2d");
 canvas.style.border = "2px solid black";
 // ctx.translate(-150, -75);
@@ -269,8 +270,8 @@ function addVehicles() {
       canvas.style.display = "none";
       audio1.pause();
       audio2.play();
-      audio2.volume = 0.5;
-      // document.getElementById("score").innerText = score;
+      audio2.volume = 0.3;
+      document.getElementById("score2").innerText = score;
     }
   }
   document.getElementById("score").innerText = score;
@@ -356,7 +357,7 @@ function handleStart() {
   canvas.style.display = "block";
   animation();
   audio1.play();
-  audio1.volume = 0.5;
+  audio1.volume = 0.3;
   homePage.style.display = "none";
   description.style.display = "block";
 }
