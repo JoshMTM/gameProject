@@ -270,7 +270,7 @@ function addVehicles() {
       canvas.style.display = "none";
       audio1.pause();
       audio2.play();
-      audio2.volume = 0.3;
+      audio2.volume = 0.2;
       document.getElementById("score2").innerText = score;
     }
   }
@@ -357,7 +357,7 @@ function handleStart() {
   canvas.style.display = "block";
   animation();
   audio1.play();
-  audio1.volume = 0.3;
+  audio1.volume = 0.2;
   homePage.style.display = "none";
   description.style.display = "block";
 }
